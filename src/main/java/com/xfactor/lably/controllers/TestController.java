@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xfactor.lably.entity.Admin;
 import com.xfactor.lably.entity.Lab;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     ArrayList<Lab> labs = new ArrayList<>();
-
+    ArrayList<Admin> admins = new ArrayList<>();
+    
     // @RequestMapping(method = RequestMethod.GET)
-    @GetMapping
+    @GetMapping("/hello")
     public String hello() {
         return "Greetings from XFACTOR!!!";
     }
@@ -45,8 +47,8 @@ public class TestController {
     }
 
     @GetMapping("/hello4")
-    public ArrayList helloName4(@RequestParam String name, @RequestParam String age) {
-        ArrayList arrayList = new ArrayList<>();
+    public ArrayList<String> helloName4(@RequestParam String name, @RequestParam String age) {
+        ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(name);
         arrayList.add(age);
         return arrayList;
@@ -59,11 +61,37 @@ public class TestController {
 
     @PostMapping("/addLab")
     public Lab addLab(@RequestBody Lab lab) {
-        String name = lab.getName();
-        name = "Hello " + name;
-        lab.setName(name);
         labs.add(lab);
         return lab;
+    }
+
+    @GetMapping("/findLab")
+    public Lab findLab(@RequestParam String name) {
+        Lab slab = new Lab();
+        for(Lab lab : labs) {
+            if( name.equals(lab.getName()) ) slab = lab;
+        }
+        return slab;
+    }
+
+    @PostMapping("/addAdmin")
+    public Admin addAdmin(@RequestBody Admin admin) {
+        admins.add(admin);
+        return admin;
+    }
+
+    @GetMapping("/getAdmins")
+    public ArrayList<Admin> getAdmins() {
+        return admins;
+    }
+
+    @GetMapping("/findAdmin")
+    public Admin findAdmin(@RequestParam String name) {
+        Admin sadmin = new Admin();
+        for(Admin admin : admins) {
+            if( name.equals(admin.getName()) ) sadmin = admin;
+        }
+        return sadmin;
     }
 
     // // http://localhost:8080/test/hello/xfactor

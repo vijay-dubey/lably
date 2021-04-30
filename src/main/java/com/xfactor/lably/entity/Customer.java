@@ -1,11 +1,11 @@
 package com.xfactor.lably.entity;
 
-public class Lab {
-
+public class Customer {
+    
     private String name;
     private String address;
-    private String phone;
-    private String pincode;
+    private String age;
+    private String gender;
 
     
     public String getName() {
@@ -20,19 +20,18 @@ public class Lab {
     public void setAddress(String address) {
         this.address = address;
     }
-    public String getPhone() {
-        return phone;
+    public String getAge() {
+        return age;
     }
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAge(String age) {
+        this.age = age;
     }
-    public String getPincode() {
-        return pincode;
+    public String getGender() {
+        return gender;
     }
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     
-
 }
