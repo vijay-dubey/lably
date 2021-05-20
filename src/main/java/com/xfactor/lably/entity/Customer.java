@@ -1,37 +1,46 @@
 package com.xfactor.lably.entity;
 
 public class Customer {
-    
-    private String name;
-    private String address;
-    private String age;
-    private String gender;
+    private String Id;
 
-    
+    private String name;
+
+    private String description;
+
+    private Double price;
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    public String getAddress() {
-        return address;
+
+    public String getDescription() {
+        return description;
     }
-    public void setAddress(String address) {
-        this.address = address;
+
+    public void setDescription(String description) {
+        this.description = description;
     }
-    public String getAge() {
-        return age;
+
+    public Double getPrice() {
+        return price;
     }
-    public void setAge(String age) {
-        this.age = age;
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
-    public String getGender() {
-        return gender;
-    }
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+
 
     
 }
