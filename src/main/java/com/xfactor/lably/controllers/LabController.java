@@ -1,10 +1,11 @@
 package com.xfactor.lably.controllers;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.List;
 
 import com.xfactor.lably.entity.Lab;
+import com.xfactor.lably.repository.LabRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,29 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/lab")
 public class LabController {
     
-    ArrayList<Lab> labs = new ArrayList<>();
+    @Autowired
+    LabRepository labRepo;
 
     @PostMapping("/addLab")
     public Lab addLab(@RequestBody Lab lab) {
-        lab.setId(UUID.randomUUID().toString());
-        labs.add(lab);
-        return lab;
+        return labRepo.save(lab);
     }
     
     @GetMapping("/getLabs")
-    public ArrayList<Lab> getAllLabs() {
-        return labs;
+    public List<Lab> getAllLabs() {
+        return labRepo.findAll();
     }
 
     @GetMapping("/getLabByName")
     public Lab findLab(@RequestParam String name) {
-        Lab res = null;
-        for (Lab lab : labs) {
-            if(lab.getName().equalsIgnoreCase(name)) {
-                res = lab;
-            }
-        }
-        return res;
+        return labRepo.findByName(name);
     }
 
 }
