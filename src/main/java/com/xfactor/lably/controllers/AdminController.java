@@ -2,12 +2,15 @@ package com.xfactor.lably.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
+// import java.util.UUID;
+import java.util.List;
 
 import com.xfactor.lably.entity.Admin;
+import com.xfactor.lably.repository.AdminRepository;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AdminController {
 
     ArrayList<Admin> admins = new ArrayList<>();
+
+    @Autowired
+    AdminRepository adminRepository;
 
     @GetMapping("/hello")    
     public String hello() {
@@ -73,26 +79,56 @@ public class AdminController {
 
     @PostMapping("/registerAdmin")
     public Admin registerPost(@RequestBody Admin admin) {
-        admin.setId(UUID.randomUUID().toString());
+        // admin.setId(UUID.randomUUID().toString());
         // save admin to db
-        admins.add(admin);
-        return admin;
+        // admins.add(admin);
+        Admin persistedAdmin = adminRepository.save(admin);
+        return persistedAdmin;
     }
 
     @GetMapping("/getAllAdmins")
-    public ArrayList<Admin> getAdmins() {
-        return admins;
+    public List<Admin> getAdmins() {
+        List<Admin> persistedAdmins =  adminRepository.findAll();
+        return persistedAdmins;
     }
 
 
-    @GetMapping("findAdminByUserName")
+    @GetMapping("getAdminByUsername")
     public Admin findAdmin(@RequestParam String username) {
-        Admin admin1 = null;
-        for (Admin admin : admins) {
-            if(admin.getUsername().equalsIgnoreCase(username)) {
-                admin1 = admin;
-            }
-        }
+        // Admin admin1 = null;
+        // List<Admin> persistedAdmins =  adminRepository.findAll();
+        // for (Admin admin : persistedAdmins) {
+        //     if(admin.getUsername().equalsIgnoreCase(username)) {
+        //         admin1 = admin;
+        //     }
+        // }
+        // return admin1;
+
+
+        Admin admin1 = adminRepository.findByUsername(username);
         return admin1;
+
+        // Optional<Admin> admin = adminRepository.findById(id);
+        // if(admin.isPresent()) {
+        //     return admin.get();
+        // }
+        // return null;
+    }
+
+    @GetMapping("getAdminByDepartment")
+    public List<Admin> getByDepartment(@RequestParam String department) {
+        return adminRepository.retrieveByDepartment(department);
+    }
+
+
+    @GetMapping("deleteAdminById") 
+    public void deleteAdminById(@RequestParam Long id) {
+        adminRepository.deleteById(id);
+    }
+
+    @GetMapping("deleteAdminByUsername") 
+    public void deleteAdminByUsername(@RequestParam String username) {
+        Admin admin = adminRepository.findByUsername(username);
+        adminRepository.delete(admin);
     }
 }

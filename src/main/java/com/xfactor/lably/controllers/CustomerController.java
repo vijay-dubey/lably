@@ -1,10 +1,13 @@
 package com.xfactor.lably.controllers;
 
-import java.util.ArrayList;
-import java.util.UUID;
+
+import java.util.List;
+import java.util.Optional;
 
 import com.xfactor.lably.entity.Customer;
+import com.xfactor.lably.repository.CustomerRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,33 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-    
-    ArrayList<Customer> customers = new ArrayList<>();
-
+   
+    @Autowired
+    CustomerRepository customerRepository;
 
     @PostMapping("/addCustomer")
     public Customer addCustomer(@RequestBody Customer customer) {
-        customer.setId(UUID.randomUUID().toString());
-        customers.add(customer);
-        return customer;
+        Customer persistedCustomer = customerRepository.save(customer);
+        return persistedCustomer;
     }
 
 
     @GetMapping("/getCustomers")
-    public ArrayList<Customer> getCustomers() {
-        return customers;
+    public List<Customer> getCustomers() {
+        List<Customer> persistedCustomers =  customerRepository.findAll();
+        return persistedCustomers;
     }
 
 
-    @GetMapping("getCustomerByName")
-    public Customer findCustomerByName(@RequestParam String name) {
-        Customer ans = null;
-        for (Customer customer : customers) {
-            if(customer.getName().equalsIgnoreCase(name)) {
-                ans = customer;
-            }
+    @GetMapping("getCustomerById")
+    public Customer findCustomerById(@RequestParam Long id) {
+        Optional<Customer> customer =  customerRepository.findById(id);
+        if(customer.isPresent()) {
+            return customer.get();
         }
-        return ans;
+        return null;
     }
 
 }
