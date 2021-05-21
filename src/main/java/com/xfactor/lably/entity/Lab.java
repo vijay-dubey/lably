@@ -1,8 +1,17 @@
 package com.xfactor.lably.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "LAB_TABLE")
 public class Lab {
 
-    private String Id;
+    @Id
+    @GeneratedValue
+    private Long Id;
 
     private String name;
 
@@ -10,7 +19,7 @@ public class Lab {
 
     private String phone;
 
-    private String pinCode;
+    private String pincode;
 
     public String getName() {
         return name;
@@ -37,18 +46,18 @@ public class Lab {
     }
 
     public String getPinCode() {
-        return pinCode;
+        return pincode;
     }
 
     public void setPinCode(String pinCode) {
-        this.pinCode = pinCode;
+        this.pincode = pinCode;
     }
 
-    public String getId() {
+    public Long getId() {
         return Id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         Id = id;
     }
 
